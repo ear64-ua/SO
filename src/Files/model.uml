@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model</OriginalElement>
+  <nodes>
+    <node x="-385.4947682509097" y="259.0">model.Process</node>
+    <node x="-804.3961449222729" y="579.5">model.Gestor</node>
+    <node x="-346.5915890601585" y="724.0">model.Memory</node>
+    <node x="54.976459359166455" y="292.0">model.Slot</node>
+    <node x="911.7004477984726" y="228.0693641618497">model.Algorithm</node>
+    <node x="-573.0605265053057" y="601.5">model.ProcessNotFound</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Process" target="model.Slot" relationship="TO_ONE">
+      <point x="-69.0" y="-136.5" />
+      <point x="-316.4947682509097" y="386.3742307204584" />
+      <point x="182.41143045743226" y="386.3742307204584" />
+      <point x="182.41143045743226" y="296.4682080924855" />
+      <point x="87.97645935916645" y="296.4682080924855" />
+      <point x="-66.0" y="103.5" />
+    </edge>
+    <edge source="model.Memory" target="model.Process" relationship="TO_MANY">
+      <point x="-89.66666666666669" y="-180.5" />
+      <point x="-312.511499083853" y="724.0" />
+      <point x="-312.511499083853" y="532.0" />
+      <point x="-92.0" y="136.5" />
+    </edge>
+    <edge source="model.Gestor" target="model.Memory" relationship="CREATE">
+      <point x="54.25" y="-59.5" />
+      <point x="-741.0019722796117" y="579.5" />
+      <point x="-741.0019722796117" y="1095.0" />
+      <point x="257.125" y="1095.0" />
+      <point x="257.125" y="1085.0" />
+      <point x="67.25" y="180.5" />
+    </edge>
+    <edge source="model.Memory" target="model.Process" relationship="DEPENDENCY">
+      <point x="0.0" y="-180.5" />
+      <point x="-261.9817624705631" y="724.0" />
+      <point x="-261.9817624705631" y="532.0" />
+      <point x="0.0" y="136.5" />
+    </edge>
+    <edge source="model.Gestor" target="model.Process" relationship="TO_MANY">
+      <point x="-64.0" y="-48.5" />
+      <point x="-657.0410808138888" y="579.5" />
+      <point x="-657.0410808138888" y="324.5797375137448" />
+      <point x="-170.42709733725206" y="324.5797375137448" />
+      <point x="-170.42709733725206" y="532.0" />
+      <point x="-92.0" y="136.5" />
+    </edge>
+    <edge source="model.Process" target="model.Slot" relationship="DEPENDENCY">
+      <point x="69.0" y="-136.5" />
+      <point x="-178.49476825090971" y="340.2218419281332" />
+      <point x="153.97645935916645" y="340.2218419281332" />
+      <point x="0.0" y="103.5" />
+    </edge>
+    <edge source="model.Gestor" target="model.Memory" relationship="TO_MANY">
+      <point x="-64.0" y="-48.5" />
+      <point x="-662.8090225867304" y="579.5" />
+      <point x="-662.8090225867304" y="809.3295271817531" />
+      <point x="-179.89086585128695" y="809.3295271817531" />
+      <point x="-179.89086585128695" y="1085.0" />
+      <point x="-67.25" y="180.5" />
+    </edge>
+    <edge source="model.Memory" target="model.Slot" relationship="CREATE">
+      <point x="89.66666666666669" y="-180.5" />
+      <point x="-122.42492239349184" y="750.4898843930636" />
+      <point x="134.9853642123523" y="750.4898843930636" />
+      <point x="134.9853642123523" y="479.99277456647394" />
+      <point x="219.97645935916645" y="479.99277456647394" />
+      <point x="66.0" y="103.5" />
+    </edge>
+    <edge source="model.ProcessNotFound" target="model.Process" relationship="DEPENDENCY">
+      <point x="48.25" y="-26.5" />
+      <point x="-428.3105265053057" y="415.8482658959537" />
+      <point x="-247.49476825090971" y="415.8482658959537" />
+      <point x="0.0" y="136.5" />
+    </edge>
+    <edge source="model.Gestor" target="model.Process" relationship="CREATE">
+      <point x="64.0" y="-48.5" />
+      <point x="-612.7590541379786" y="579.5" />
+      <point x="-612.7590541379786" y="353.3345885769347" />
+      <point x="-384.7700742590787" y="353.3345885769347" />
+      <point x="-384.7700742590787" y="532.0" />
+      <point x="92.0" y="136.5" />
+    </edge>
+    <edge source="model.ProcessNotFound" target="model.Process" relationship="TO_ONE">
+      <point x="-48.25" y="-26.5" />
+      <point x="-406.0426422332965" y="601.5" />
+      <point x="-406.0426422332965" y="503.27456647398844" />
+      <point x="-339.4947682509097" y="503.27456647398844" />
+      <point x="-92.0" y="136.5" />
+    </edge>
+    <edge source="model.Memory" target="model.ProcessNotFound" relationship="CREATE">
+      <point x="89.66666666666669" y="-180.5" />
+      <point x="-122.42492239349184" y="752.557803468208" />
+      <point x="-426.7452595299503" y="752.557803468208" />
+      <point x="-426.7452595299503" y="654.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="model.Memory" target="model.Slot" relationship="TO_MANY">
+      <point x="-89.66666666666669" y="-180.5" />
+      <point x="109.9366979227093" y="724.0" />
+      <point x="109.9366979227093" y="326.7586705202312" />
+      <point x="87.97645935916645" y="326.7586705202312" />
+      <point x="-66.0" y="103.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.44302788844621516" showDependencies="true" x="343.5" y="617.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
