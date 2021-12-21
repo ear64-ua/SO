@@ -56,8 +56,6 @@ public class Memory {
 			throw new ProcessNotFound(process);
 	}
 
-
-
 	public void paintMemory(Graphics g, int y)
 	{
 	}
@@ -113,6 +111,33 @@ public class Memory {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * This method sets a process into the slot it has assigned
+	 * @param x position of the slot
+	 * @param p process that is going to be set
+	 * @return boolean value depending if was set
+	 */
+	public boolean setInSlot(int x, Process p){
+		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
+			if (pairEntry.getKey().getX()==x){
+				Slot s1 = new Slot(p.getMemory(),pairEntry.getKey().getX());
+				memory.put(s1,p);
+				pushSlots(x+1);
+				memory.remove(pairEntry.getKey(),null);
+				if(pairEntry.getKey().getSpace()-p.getMemory()!=0) {
+					memory.put(new Slot(pairEntry.getKey().getSpace() - p.getMemory(), x + 1), null);
+					//System.out.println(p.getName()+" "+(pairEntry.getKey().getSpace() - p.getMemory())+ " "+ ( p.getMemory()-pairEntry.getKey().getSpace()));
+				}
+
+				if(pairEntry.getKey().getSpace()-p.getMemory()==0)
+					pullSlots(x+1);
+
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean isSpace(int space) {
@@ -183,6 +208,7 @@ public class Memory {
 			oldSlot.setSpace(oldSlot.getSpace()-process.getMemory());
 			oldSlot.setX(position+1);
 			memory.put(oldSlot,null);
+			process.setSlot(bestSlot);
 			memory.put(bestSlot,process);
 		}
 

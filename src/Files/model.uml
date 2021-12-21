@@ -3,113 +3,147 @@
   <ID>JAVA</ID>
   <OriginalElement>model</OriginalElement>
   <nodes>
-    <node x="-385.4947682509097" y="259.0">model.Process</node>
-    <node x="-804.3961449222729" y="579.5">model.Gestor</node>
-    <node x="-346.5915890601585" y="724.0">model.Memory</node>
-    <node x="54.976459359166455" y="292.0">model.Slot</node>
-    <node x="911.7004477984726" y="228.0693641618497">model.Algorithm</node>
-    <node x="-573.0605265053057" y="601.5">model.ProcessNotFound</node>
+    <node x="263.7219827586207" y="216.0">model.Process</node>
+    <node x="130.18031609195407" y="1063.0">model.Gestor</node>
+    <node x="101.78807471264372" y="639.0">model.Memory</node>
+    <node x="228.73275862068965" y="0.0">model.Slot</node>
+    <node x="584.7219827586207" y="0.0">model.Algorithm</node>
+    <node x="38.721982758620726" y="532.0">model.ProcessNotFound</node>
   </nodes>
   <notes />
   <edges>
     <edge source="model.Process" target="model.Slot" relationship="TO_ONE">
-      <point x="-69.0" y="-136.5" />
-      <point x="-316.4947682509097" y="386.3742307204584" />
-      <point x="182.41143045743226" y="386.3742307204584" />
-      <point x="182.41143045743226" y="296.4682080924855" />
-      <point x="87.97645935916645" y="296.4682080924855" />
-      <point x="-66.0" y="103.5" />
+      <point x="-69.0" y="-126.0" />
+      <point x="332.7219827586207" y="195.0" />
+      <point x="355.73275862068965" y="195.0" />
+      <point x="355.73275862068965" y="185.0" />
+      <point x="327.73275862068965" y="185.0" />
+      <point x="0.0" y="82.0" />
     </edge>
     <edge source="model.Memory" target="model.Process" relationship="TO_MANY">
-      <point x="-89.66666666666669" y="-180.5" />
-      <point x="-312.511499083853" y="724.0" />
-      <point x="-312.511499083853" y="532.0" />
-      <point x="-92.0" y="136.5" />
+      <point x="89.66666666666667" y="-181.0" />
+      <point x="325.9547413793104" y="617.0" />
+      <point x="332.16666666666663" y="617.0" />
+      <point x="332.16666666666663" y="607.0" />
+      <point x="431.0380747126437" y="607.0" />
+      <point x="431.0380747126437" y="500.0" />
+      <point x="432.625" y="500.0" />
+      <point x="432.625" y="490.0" />
+      <point x="401.7219827586207" y="490.0" />
+      <point x="0.0" y="126.0" />
     </edge>
     <edge source="model.Gestor" target="model.Memory" relationship="CREATE">
-      <point x="54.25" y="-59.5" />
-      <point x="-741.0019722796117" y="579.5" />
-      <point x="-741.0019722796117" y="1095.0" />
-      <point x="257.125" y="1095.0" />
-      <point x="257.125" y="1085.0" />
-      <point x="67.25" y="180.5" />
+      <point x="95.66666666666663" y="-93.0" />
+      <point x="369.3469827586207" y="1042.0" />
+      <point x="444.8333333333333" y="1042.0" />
+      <point x="444.8333333333333" y="1022.0" />
+      <point x="303.5380747126437" y="1022.0" />
+      <point x="67.25" y="181.0" />
+    </edge>
+    <edge source="model.Gestor" target="model.ProcessNotFound" relationship="DEPENDENCY">
+      <point x="-95.66666666666674" y="-93.0" />
+      <point x="178.01364942528733" y="1042.0" />
+      <point x="0.0" y="1042.0" />
+      <point x="0.0" y="617.0" />
+      <point x="86.97198275862073" y="617.0" />
+      <point x="-48.25" y="26.5" />
     </edge>
     <edge source="model.Memory" target="model.Process" relationship="DEPENDENCY">
-      <point x="0.0" y="-180.5" />
-      <point x="-261.9817624705631" y="724.0" />
-      <point x="-261.9817624705631" y="532.0" />
-      <point x="0.0" y="136.5" />
+      <point x="0.0" y="-181.0" />
+      <point x="236.28807471264372" y="617.0" />
+      <point x="242.22198275862073" y="617.0" />
+      <point x="242.22198275862073" y="510.0" />
+      <point x="163.35775862068962" y="510.0" />
+      <point x="163.35775862068965" y="490.0" />
+      <point x="309.72198275862075" y="490.0" />
+      <point x="-92.0" y="126.0" />
     </edge>
     <edge source="model.Gestor" target="model.Process" relationship="TO_MANY">
-      <point x="-64.0" y="-48.5" />
-      <point x="-657.0410808138888" y="579.5" />
-      <point x="-657.0410808138888" y="324.5797375137448" />
-      <point x="-170.42709733725206" y="324.5797375137448" />
-      <point x="-170.42709733725206" y="532.0" />
-      <point x="-92.0" y="136.5" />
+      <point x="0.0" y="-93.0" />
+      <point x="273.68031609195407" y="1042.0" />
+      <point x="316.0136494252874" y="1042.0" />
+      <point x="316.0136494252874" y="1032.0" />
+      <point x="434.0833333333333" y="1032.0" />
+      <point x="434.0833333333333" y="500.0" />
+      <point x="432.625" y="500.0" />
+      <point x="432.625" y="490.0" />
+      <point x="401.7219827586207" y="490.0" />
+      <point x="0.0" y="126.0" />
     </edge>
     <edge source="model.Process" target="model.Slot" relationship="DEPENDENCY">
-      <point x="69.0" y="-136.5" />
-      <point x="-178.49476825090971" y="340.2218419281332" />
-      <point x="153.97645935916645" y="340.2218419281332" />
-      <point x="0.0" y="103.5" />
+      <point x="69.0" y="-126.0" />
+      <point x="470.7219827586207" y="195.0" />
+      <point x="393.73275862068965" y="195.0" />
+      <point x="66.0" y="82.0" />
     </edge>
     <edge source="model.Gestor" target="model.Memory" relationship="TO_MANY">
-      <point x="-64.0" y="-48.5" />
-      <point x="-662.8090225867304" y="579.5" />
-      <point x="-662.8090225867304" y="809.3295271817531" />
-      <point x="-179.89086585128695" y="809.3295271817531" />
-      <point x="-179.89086585128695" y="1085.0" />
-      <point x="-67.25" y="180.5" />
+      <point x="0.0" y="-93.0" />
+      <point x="273.68031609195407" y="1042.0" />
+      <point x="316.0136494252874" y="1042.0" />
+      <point x="316.0136494252874" y="1032.0" />
+      <point x="169.03807471264372" y="1032.0" />
+      <point x="-67.25" y="181.0" />
     </edge>
     <edge source="model.Memory" target="model.Slot" relationship="CREATE">
-      <point x="89.66666666666669" y="-180.5" />
-      <point x="-122.42492239349184" y="750.4898843930636" />
-      <point x="134.9853642123523" y="750.4898843930636" />
-      <point x="134.9853642123523" y="479.99277456647394" />
-      <point x="219.97645935916645" y="479.99277456647394" />
-      <point x="66.0" y="103.5" />
+      <point x="-89.66666666666669" y="-181.0" />
+      <point x="146.62140804597703" y="617.0" />
+      <point x="104.60775862068965" y="617.0" />
+      <point x="104.60775862068965" y="607.0" />
+      <point x="28.221982758620726" y="607.0" />
+      <point x="28.221982758620726" y="185.0" />
+      <point x="261.73275862068965" y="185.0" />
+      <point x="-66.0" y="82.0" />
     </edge>
     <edge source="model.ProcessNotFound" target="model.Process" relationship="DEPENDENCY">
-      <point x="48.25" y="-26.5" />
-      <point x="-428.3105265053057" y="415.8482658959537" />
-      <point x="-247.49476825090971" y="415.8482658959537" />
-      <point x="0.0" y="136.5" />
+      <point x="-48.25" y="-26.5" />
+      <point x="86.97198275862073" y="510.0" />
+      <point x="163.35775862068965" y="510.0" />
+      <point x="163.35775862068965" y="490.0" />
+      <point x="309.72198275862075" y="490.0" />
+      <point x="-92.0" y="126.0" />
     </edge>
     <edge source="model.Gestor" target="model.Process" relationship="CREATE">
-      <point x="64.0" y="-48.5" />
-      <point x="-612.7590541379786" y="579.5" />
-      <point x="-612.7590541379786" y="353.3345885769347" />
-      <point x="-384.7700742590787" y="353.3345885769347" />
-      <point x="-384.7700742590787" y="532.0" />
-      <point x="92.0" y="136.5" />
+      <point x="95.66666666666663" y="-93.0" />
+      <point x="369.3469827586207" y="1042.0" />
+      <point x="444.8333333333333" y="1042.0" />
+      <point x="445.0833333333333" y="510.0" />
+      <point x="493.7219827586207" y="510.0" />
+      <point x="92.0" y="126.0" />
     </edge>
     <edge source="model.ProcessNotFound" target="model.Process" relationship="TO_ONE">
-      <point x="-48.25" y="-26.5" />
-      <point x="-406.0426422332965" y="601.5" />
-      <point x="-406.0426422332965" y="503.27456647398844" />
-      <point x="-339.4947682509097" y="503.27456647398844" />
-      <point x="-92.0" y="136.5" />
+      <point x="48.25" y="-26.5" />
+      <point x="183.47198275862073" y="500.0" />
+      <point x="432.625" y="500.0" />
+      <point x="432.625" y="490.0" />
+      <point x="401.7219827586207" y="490.0" />
+      <point x="0.0" y="126.0" />
     </edge>
     <edge source="model.Memory" target="model.ProcessNotFound" relationship="CREATE">
-      <point x="89.66666666666669" y="-180.5" />
-      <point x="-122.42492239349184" y="752.557803468208" />
-      <point x="-426.7452595299503" y="752.557803468208" />
-      <point x="-426.7452595299503" y="654.5" />
-      <point x="0.0" y="26.5" />
+      <point x="-89.66666666666669" y="-181.0" />
+      <point x="146.62140804597703" y="617.0" />
+      <point x="104.60775862068965" y="617.0" />
+      <point x="104.60775862068965" y="607.0" />
+      <point x="183.47198275862073" y="607.0" />
+      <point x="48.25" y="26.5" />
     </edge>
     <edge source="model.Memory" target="model.Slot" relationship="TO_MANY">
-      <point x="-89.66666666666669" y="-180.5" />
-      <point x="109.9366979227093" y="724.0" />
-      <point x="109.9366979227093" y="326.7586705202312" />
-      <point x="87.97645935916645" y="326.7586705202312" />
-      <point x="-66.0" y="103.5" />
+      <point x="89.66666666666667" y="-181.0" />
+      <point x="325.9547413793104" y="617.0" />
+      <point x="332.16666666666663" y="617.0" />
+      <point x="332.16666666666663" y="607.0" />
+      <point x="253.22198275862073" y="607.0" />
+      <point x="253.22198275862073" y="195.0" />
+      <point x="355.73275862068965" y="195.0" />
+      <point x="355.73275862068965" y="185.0" />
+      <point x="327.73275862068965" y="185.0" />
+      <point x="0.0" y="82.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic" zoom="0.44302788844621516" showDependencies="true" x="343.5" y="617.5" />
+  <settings layout="Hierarchic" zoom="0.5634357762017337" showDependencies="true" x="403.5" y="624.5" />
   <SelectedNodes />
   <Categories>
     <Category>Methods</Category>
+    <Category>Properties</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

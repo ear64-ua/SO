@@ -32,6 +32,12 @@ public class GestorTest {
     }
 
     @Test
+    public void testBestGap3(){
+        g.addProcesses("/Users/me/IdeaProjects/SO/src/Files/processes4.txt");
+        g.bestGap();
+    }
+
+    @Test
     public void numMemories(){
         g.addProcesses("/Users/me/IdeaProjects/SO/src/Files/processes2.txt");
         assertEquals(9,g.getNumMemories());

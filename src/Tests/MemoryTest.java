@@ -184,4 +184,25 @@ public class MemoryTest {
 
     }
 
+    @Test
+    public void testPutInSlot(){
+        Process p1 = new Process("p1",0,200,3, Color.BLUE);
+        Process p3 = new Process("p3",0,500,3, Color.BLUE);
+
+        Process p2 = new Process("p2",0,300,3, Color.RED);
+
+        m.bestSlot(p2);
+        m.bestSlot(p3);
+        try {
+            m.removeProcess(p2);
+            m.removeProcess(p3);
+        } catch (ProcessNotFound e) {
+            e.printStackTrace();
+        }
+        System.out.println(m);
+
+        m.setInSlot(1,p1);
+        System.out.println(m);
+    }
+
 }

@@ -101,72 +101,60 @@ public class Gestor {
      */
     public void bestGap(){
         addMemories();
-        ArrayList<Process> processes2empty = new ArrayList<>();
+        Queue<Process> queue = new LinkedList<>();
+        int j ;
 
-        for (int i = 0; i < memories.size();i++){
 
-            // we assign the best slot for each process if its 0 removes it and creates an empty slot
+        for (int i = 0; i < memories.size(); i++){
+
+            // we add to the queue the processes when the time for them to execute comes
             for (Process p : processes){
-                //System.out.println(p);
-                if (p.getArrive()<=i+1 && !spaceInNewEmpty(p.getMemory()) /*&& wasNotAsigned(i,p)*/) {
-                    if (memories.get(i).bestSlot(p)) {
-                        p.setDuration(-1);
-                    }
+                if (p.getArrive()==i){
+                    queue.add(p);
                 }
             }
 
-            // remove processes that got their duration as 0 , so we can free memory for more slots
-            for (Process p : processes){
-                if (p.getDuration() < 0) {
+            // we remove from the queue the processes that are not executing anymore
+            for (Process p : processes) {
+                if (p.getDuration() == 0) {
+                    memories.get(i).bestSlot(p);
                     try {
                         memories.get(i).removeProcess(p);
-                    } catch (ProcessNotFound e){ e.getMessage(); }
+                    } catch (ProcessNotFound e) {
+                    }
+                    if (queue.contains(p)) {
+                        queue.remove(p);
+                    }
                 }
             }
 
-            memories.get(i).joinEmptySlots();
+            // for every process that is stored in the queue, we assign them their position
+            for (Process p : queue){
+                if (memories.get(i).setInSlot(p.getPosition(),p))
+                    p.setDuration(-1);
 
-            // if is the process time to run and the memory doesn't contain the process and its duration is not 0
-            for (Process p : processes){
-                //System.out.println(p);
-                //System.out.println(i);
-                if (p.getArrive()<=i+1 && !memories.get(i).containsProcess(p) && p.getDuration()>0 && wasNotAsigned(i,p)) {
-                    if (memories.get(i).bestSlot(p)) {
+            }
+
+            // then for every process in queue that has not been assigned yet, we add them to the memory
+            for (Process p : queue){
+                if(p.getDuration()!=0){
+                    if(memories.get(i).bestSlot(p)) {
                         p.setDuration(-1);
                     }
+
                 }
             }
 
-            /*
-            for (Process p : processes2empty){
-                try {
-                    memories.get(i).removeProcess(p);
-                } catch (ProcessNotFound e) { }
+            // if there's still processes on queue when the predicted number of memories is at its limit,
+            // the number of memories will increase
+            if (i==memories.size()-1 && queue.size()!=0) {
+                memories.add(new Memory());
             }
+
             memories.get(i).joinEmptySlots();
 
-            for (Process p : processes) {
-                if (p.getDuration()==0 && i < memories.size()-1) {
-                    memories.get(i + 1).bestSlot(p);
-                    processes2empty.add(p);
-                }
-            }
-
-            for (Process p : processes){
-                if (p.getArrive()<=i+1 && !memories.get(i).containsProcess(p)) {
-                    if (p.getDuration() != 0) {
-                        if (memories.get(i).bestSlot(p)) {
-                            p.setDuration(-1);
-                        }
-                    }
-                }
-            }
-
-            */
-
-            System.out.println(memories.get(i));
+            System.out.println(i+" "+memories.get(i));
         }
-
 
     }
 

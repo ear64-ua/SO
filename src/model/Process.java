@@ -10,6 +10,7 @@ public class Process{
     private int duration;
     private Color color;
     private Slot slot;
+    private int x;
 
     public Process(String name,int arrive,int memory,int duration, Color color) {
         this.name=name;
@@ -18,6 +19,7 @@ public class Process{
         this.duration=duration;
         this.color=color;
         this.slot = null;
+        x = -1;
     }
 
     public void paintProcess(Graphics g, int t, int y)
@@ -43,7 +45,9 @@ public class Process{
     }
 
     public int getPosition(){
-        return slot.getX();
+        if (slot!=null)
+            return slot.getX();
+        return -1;
     }
 
     public void setSlot(Slot slot){
