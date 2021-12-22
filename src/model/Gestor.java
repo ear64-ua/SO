@@ -254,6 +254,10 @@ public class Gestor {
         return s+"";
     }
 
+    public int getMemoriesSize(){
+        return memories.size();
+    }
+
     public String showMemories(){
         StringBuilder s = new StringBuilder("");
         for (int i = 0;i < memories.size(); i++) {

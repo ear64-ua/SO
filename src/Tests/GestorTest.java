@@ -38,7 +38,7 @@ public class GestorTest {
         System.out.println(g.showMemories());
         //g.resetMemory();
 
-        g2.nextGap();
+        g2.bestGap();
 
         //g.bestGap();
         //System.out.println(g.showMemories());

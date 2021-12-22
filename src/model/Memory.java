@@ -145,11 +145,20 @@ public class Memory {
 		StringBuilder s = new StringBuilder("");
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
 			if (pairEntry.getValue() != null) {
-				s.append(pairEntry.getValue().getColor()).append(" ").append(pairEntry.getKey().getSpace());
-			} else
-				s.append(Color.white).append(" ").append(pairEntry.getKey().getSpace());
+				s.append(String.valueOf((pairEntry.getValue().getColor()).getRed())).append(",")
+						.append(String.valueOf((pairEntry.getValue().getColor()).getGreen())).append(",")
+						.append(String.valueOf((pairEntry.getValue().getColor()).getBlue())).append(" ").
+						append(pairEntry.getKey().getSpace());
+			}
+			else {
+				s.append(String.valueOf(Color.white.getRed())).append(",").append(String.valueOf(Color.white.getGreen())).append(",").
+						append(String.valueOf(Color.white.getBlue())).append(" ").append(pairEntry.getKey().getSpace());
+			}
 
 			s.append("/");
+		}
+		if(s.length() > 0){
+			s.deleteCharAt(s.length() - 1);
 		}
 
 		return ""+s;
