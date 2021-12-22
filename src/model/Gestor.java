@@ -13,10 +13,17 @@ public class Gestor {
     public ArrayList<Process> processes;
     public ArrayList<Memory> memories;
     private Color[] c = {Color.BLUE,Color.RED,Color.MAGENTA,Color.ORANGE,Color.CYAN, Color.GREEN};
+    String filename;
 
-    public Gestor(){
+    public Gestor(String filename){
         processes = new ArrayList<Process>();
         memories = new ArrayList<Memory>();
+        this.filename = filename;
+        System.out.println(filename);
+    }
+
+    public void resetMemory(){
+        memories.clear();
     }
 /*
     public void bestGap(){
@@ -45,10 +52,10 @@ public class Gestor {
         }
     }
 */
-    public void addProcesses(String filename) {
+    public void addProcesses() {
 
-        File file = new File(filename);
         try {
+            File file = new File(filename);
             @SuppressWarnings("resource")
             Scanner scan = new Scanner(file);
             int j = 0;
@@ -104,7 +111,6 @@ public class Gestor {
         Queue<Process> queue = new LinkedList<>();
         int j ;
 
-
         for (int i = 0; i < memories.size(); i++){
 
             // we add to the queue the processes when the time for them to execute comes
@@ -127,13 +133,18 @@ public class Gestor {
                     }
                 }
             }
-
+            //System.out.println("¢¢¢¢¢¢");
+            //System.out.println(memories.get(i));
+            //System.out.println("¢¢¢¢¢¢");
+            // TODO assign instead of depending on the number of slot from last memory,
+            //  depending on the number of the total of slots. Do a pull if the number of slots decreases
             // for every process that is stored in the queue, we assign them their position
             for (Process p : queue){
                 if (memories.get(i).setInSlot(p.getPosition(),p))
                     p.setDuration(-1);
 
             }
+
 
             // then for every process in queue that has not been assigned yet, we add them to the memory
             for (Process p : queue){
@@ -158,6 +169,69 @@ public class Gestor {
 
     }
 
+    public void nextGap(){
+        addMemories();
+        Queue<Process> queue = new LinkedList<>();
+        int j ;
+
+
+        for (int i = 0; i < memories.size(); i++){
+
+            // we add to the queue the processes when the time for them to execute comes
+            for (Process p : processes){
+                if (p.getArrive()==i){
+                    queue.add(p);
+                }
+            }
+
+            // we remove from the queue the processes that are not executing anymore
+            for (Process p : processes) {
+                if (p.getDuration() == 0) {
+                    memories.get(i).nextSlot(p);
+                    try {
+                        memories.get(i).removeProcess(p);
+                    } catch (ProcessNotFound e) {
+                    }
+                    if (queue.contains(p)) {
+                        queue.remove(p);
+                    }
+                }
+            }
+            //System.out.println("¢¢¢¢¢¢");
+            //System.out.println(memories.get(i));
+            //System.out.println("¢¢¢¢¢¢");
+            // TODO assign instead of depending on the number of slot from last memory,
+            //  depending on the number of the total of slots. Do a pull if the number of slots decreases
+            // for every process that is stored in the queue, we assign them their position
+            for (Process p : queue){
+                if (memories.get(i).setInSlot(p.getPosition(),p))
+                    p.setDuration(-1);
+
+            }
+
+
+            // then for every process in queue that has not been assigned yet, we add them to the memory
+            for (Process p : queue){
+                if(p.getDuration()!=0){
+                    if(memories.get(i).nextSlot(p)) {
+                        p.setDuration(-1);
+                    }
+
+                }
+            }
+
+            // if there's still processes on queue when the predicted number of memories is at its limit,
+            // the number of memories will increase
+            if (i==memories.size()-1 && queue.size()!=0) {
+                memories.add(new Memory());
+            }
+
+            memories.get(i).joinEmptySlots();
+
+            System.out.println(i+" "+memories.get(i));
+        }
+    }
+
     /**
      * Determines the number of memories needed in base of the duration plus the moment it arrives
      * @return its size
@@ -177,6 +251,14 @@ public class Gestor {
         StringBuilder s = new StringBuilder("");
         for (Process p : processes)
             s.append(p).append("\n");
+        return s+"";
+    }
+
+    public String showMemories(){
+        StringBuilder s = new StringBuilder("");
+        for (int i = 0;i < memories.size(); i++) {
+            s.append(memories.get(i).showMemory()).append("\n");
+        }//TODO add color java.awt from string to MyAPP.class
         return s+"";
     }
 }

@@ -1,16 +1,20 @@
 package main;
-import model.*;
-import model.Process;
+import view.ManagerPanel;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        //new MyFrame();
+        JFrame frame = new JFrame();
+        JPanel panel = new ManagerPanel();
+
+        frame.add(panel);
+        frame.setTitle("Memory manager simulator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(null);
+        frame.setSize(500,500);
+        frame.setVisible(true);
+        //new MyAPP();
         /*
         Memory m = new Memory();
 
@@ -26,7 +30,7 @@ public class Main {
 
         m.bestSlot(200);
         System.out.println(m)
-        */
+
 
 
         Map<Slot, Process> memory = new TreeMap<>();
@@ -49,7 +53,7 @@ public class Main {
         for (Map.Entry pairEntry: memory.entrySet() ) {
             System.out.println(pairEntry.getKey()+" "+pairEntry.getValue());
         }
-
+*/
 
 
     }

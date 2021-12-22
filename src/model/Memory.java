@@ -140,6 +140,21 @@ public class Memory {
 		return false;
 	}
 
+	public String showMemory(){
+
+		StringBuilder s = new StringBuilder("");
+		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
+			if (pairEntry.getValue() != null) {
+				s.append(pairEntry.getValue().getColor()).append(" ").append(pairEntry.getKey().getSpace());
+			} else
+				s.append(Color.white).append(" ").append(pairEntry.getKey().getSpace());
+
+			s.append("/");
+		}
+
+		return ""+s;
+	}
+
 	public boolean isSpace(int space) {
 
 		boolean isSpace = false;
