@@ -3,17 +3,21 @@ package view;
 import model.Gestor;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static javax.swing.SwingConstants.TOP;
+
 public class ManagerPanel extends JPanel {
     private Gestor g;
     public static final int left_margin = 20;
+    public final String filename = "/Users/me/IdeaProjects/SO/src/Files/processes5.txt";
     private int marginMemories = 0;
     private JButton nextGapButton= new JButton("Next Gap Algorithm");
     private JButton bestGapButton = new JButton("Best Gap Algorithm");
-    ManagerDrawing managerDrawing = new ManagerDrawing("/Users/me/IdeaProjects/SO/src/Files/processes5.txt");
+    ManagerDrawing managerDrawing = new ManagerDrawing(filename);
 
     private Color[] c = {Color.BLUE,Color.RED,Color.MAGENTA,Color.ORANGE,Color.CYAN, Color.GREEN};
 
@@ -21,8 +25,7 @@ public class ManagerPanel extends JPanel {
         addNextGapButton();
         addBestGapButton();
 
-        //g.addProcesses();
-        //addProcessLabel();
+
         managerDrawing.setForeground(Color.white);
         //managerDrawing.setOpaque(true);
         managerDrawing.setLocation(200,50);
@@ -39,33 +42,11 @@ public class ManagerPanel extends JPanel {
         add(nextGapButton,BorderLayout.SOUTH);
         add(bestGapButton,BorderLayout.SOUTH);
 
+        //addProcessLabel();
+
+
 
     }
-
-
-
-    /*
-    public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource()==mejorHueco_button) {
-            System.out.println("button 1");
-            //g.bestGap();
-            System.out.println("");
-            mejorHueco_button.setEnabled(false);
-            siguienteHueco_button.setEnabled(true);
-
-        }
-
-        else {
-            System.out.println("button 2");
-
-            //nextGap();
-            mejorHueco_button.setEnabled(true);
-            siguienteHueco_button.setEnabled(false);
-
-        }
-
-    }*/
 
     public class NextGapListener implements ActionListener {
         @Override
@@ -81,14 +62,17 @@ public class ManagerPanel extends JPanel {
     }
 
     public void addProcessLabel() {
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes5.txt");
+        Gestor g = new Gestor(filename);
         String[] p = g.showProcesses().split("\n");
 
         for (int i = 0; i < p.length; i++) {
             JLabel label = new JLabel();
             label.setText(p[i]);
             label.setBounds(left_margin, -160 + 15*i, 500, 500);
+            label.setHorizontalAlignment(0); // set the horizontal alignement on the x axis !
+            label.setVerticalAlignment(SwingConstants.BOTTOM);
             this.add(label);
+            setVisible(true);
         }
 
     }
