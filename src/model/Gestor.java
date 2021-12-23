@@ -115,6 +115,7 @@ public class Gestor {
 
             // we add to the queue the processes when the time for them to execute comes
             for (Process p : processes){
+                System.out.println(p.getName()+" " +p.getPosition());
                 if (p.getArrive()==i){
                     queue.add(p);
                 }
@@ -165,6 +166,7 @@ public class Gestor {
             memories.get(i).joinEmptySlots();
 
             System.out.println(i+" "+memories.get(i));
+
         }
 
     }
@@ -173,21 +175,28 @@ public class Gestor {
         addMemories();
         Queue<Process> queue = new LinkedList<>();
         int j ;
+        ArrayList<Integer> positions = new ArrayList<>();
 
 
         for (int i = 0; i < memories.size(); i++){
 
             // we add to the queue the processes when the time for them to execute comes
             for (Process p : processes){
+                System.out.println(p.getName()+" " +p.getPosition());
                 if (p.getArrive()==i){
                     queue.add(p);
+                    positions.add(p.getPosition());
                 }
             }
 
+            int k = 0;
             // we remove from the queue the processes that are not executing anymore
             for (Process p : processes) {
                 if (p.getDuration() == 0) {
-                    memories.get(i).nextSlot(p);
+                    memories.get(i).setInSlot(positions.get(k),p);
+                    //System.out.println(k);
+                    memories.get(k).setNextSlotPos(k);
+
                     try {
                         memories.get(i).removeProcess(p);
                     } catch (ProcessNotFound e) {
@@ -195,8 +204,12 @@ public class Gestor {
                     if (queue.contains(p)) {
                         queue.remove(p);
                     }
+                    k++;
                 }
+                else
+                    k++;
             }
+            System.out.println( memories.get(k).getNextPos());
             //System.out.println("¢¢¢¢¢¢");
             //System.out.println(memories.get(i));
             //System.out.println("¢¢¢¢¢¢");
@@ -204,9 +217,11 @@ public class Gestor {
             //  depending on the number of the total of slots. Do a pull if the number of slots decreases
             // for every process that is stored in the queue, we assign them their position
             for (Process p : queue){
-                if (memories.get(i).setInSlot(p.getPosition(),p))
-                    p.setDuration(-1);
 
+                if (memories.get(i).setInSlot(p.getPosition(),p)) {
+                    p.setDuration(-1);
+                    memories.get(i).setNextSlotPos(p.getPosition());
+                }
             }
 
 
@@ -229,7 +244,10 @@ public class Gestor {
             memories.get(i).joinEmptySlots();
 
             System.out.println(i+" "+memories.get(i));
+            //System.out.println(memories.get(i).getNextPos());
         }
+
+
     }
 
     /**

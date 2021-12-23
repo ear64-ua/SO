@@ -178,7 +178,6 @@ public class Memory {
 		return isSpace;
 	}
 
-
 	/**
 	 * Finds the slot that fits the best for a process given, following the bestSlot algorithm
 	 * @param process that will try to be added into memory
@@ -324,7 +323,6 @@ public class Memory {
 				if ( pairEntry.getKey().getSpace() > process.getMemory()){
 					oldSlot=pairEntry.getKey();
 
-
 					newSlot.setSpace(process.getMemory());
 					newSlot.setX(i);
 					// since we divided into two, the next slot will jump + 2 positions
@@ -361,7 +359,7 @@ public class Memory {
 
 						newSlot.setSpace(process.getMemory());
 						newSlot.setX(i);
-						// since we divided into two, the next slot will jump + 2 positions
+						// since we divided into two, the next slot will jump + 1 positions
 						nextSlotPos = pairEntry.getKey().getX() + 1;
 
 						allowed = true;
@@ -390,6 +388,14 @@ public class Memory {
 			nextSlotPos=0;
 
 		return allowed;
+	}
+
+	public void setNextSlotPos(int i){
+		nextSlotPos=i;
+	}
+
+	public int getNextPos(){
+		return nextSlotPos;
 	}
 
 	/**

@@ -149,6 +149,7 @@ public class MemoryTest {
         } catch (ProcessNotFound e) {
             e.getMessage();
         }
+        System.out.println(m);
     }
 
     @Test
@@ -156,6 +157,7 @@ public class MemoryTest {
         setUpNextSlot();
         m.nextSlot(new Process("p5",0,500,3, Color.MAGENTA));
         assertEquals(NEXTSLOT2,m.toString());
+        System.out.println(m);
     }
 
     @Test
