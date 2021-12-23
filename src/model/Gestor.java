@@ -1,8 +1,7 @@
 package model;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,6 +13,8 @@ public class Gestor {
     public ArrayList<Memory> memories;
     private Color[] c = {Color.BLUE,Color.RED,Color.MAGENTA,Color.ORANGE,Color.CYAN, Color.GREEN};
     String filename;
+    ByteArrayOutputStream baos;
+    PrintStream ps, old;
 
     public Gestor(String filename){
         processes = new ArrayList<Process>();
@@ -25,33 +26,7 @@ public class Gestor {
     public void resetMemory(){
         memories.clear();
     }
-/*
-    public void bestGap(){
-        Queue<Process> queue = new LinkedList<>();
-        for (int n = 0; n < getNumMemories(); n++) {
 
-            for (int k = 0; k < processes.size(); k++) {
-                if (processes.get(k).getDuration()>n && memories.get(n).isSpace(processes.get(k).getMemory())) {
-                    memories.get(n).bestSlot(processes.get(k).getMemory());
-                }
-
-                if (!memories.get(n).isSpace(processes.get(k).getMemory())) {
-                    queue.add((Process) processes.get(k));
-                }
-            }
-
-            for (int l = 0; l < queue.size();l++) {
-                if (memories.get(n).isSpace(queue.peek().getMemory())) {
-                    memories.get(n).bestSlot(queue.peek().getMemory());
-                    queue.remove();
-                }
-            }
-
-            System.out.println(memories.get(n));
-
-        }
-    }
-*/
     public void addProcesses() {
 
         try {
@@ -110,12 +85,14 @@ public class Gestor {
         addMemories();
         Queue<Process> queue = new LinkedList<>();
         int j ;
+        standardIO2Stream(); //Changes exit standard to Stream
+
 
         for (int i = 0; i < memories.size(); i++){
 
             // we add to the queue the processes when the time for them to execute comes
             for (Process p : processes){
-                System.out.println(p.getName()+" " +p.getPosition());
+                //System.out.println(p.getName()+" " +p.getPosition());
                 if (p.getArrive()==i){
                     queue.add(p);
                 }
@@ -169,6 +146,14 @@ public class Gestor {
 
         }
 
+
+        String sout = Stream2StandardIO(); //Cambia salida de Stream a la consola
+        try {
+            writeResults2File(sout,"bestGap");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void nextGap(){
@@ -176,13 +161,13 @@ public class Gestor {
         Queue<Process> queue = new LinkedList<>();
         int j ;
         ArrayList<Integer> positions = new ArrayList<>();
-
+        standardIO2Stream(); //Changes exit standard to Stream
 
         for (int i = 0; i < memories.size(); i++){
 
             // we add to the queue the processes when the time for them to execute comes
             for (Process p : processes){
-                System.out.println(p.getName()+" " +p.getPosition());
+                //System.out.println(p.getName()+" " +p.getPosition());
                 if (p.getArrive()==i){
                     queue.add(p);
                     positions.add(p.getPosition());
@@ -195,7 +180,7 @@ public class Gestor {
                 if (p.getDuration() == 0) {
                     memories.get(i).setInSlot(positions.get(k),p);
                     //System.out.println(k);
-                    memories.get(k).setNextSlotPos(k);
+                    memories.get(k).setNextSlotPos(p.getPosition());
 
                     try {
                         memories.get(i).removeProcess(p);
@@ -209,7 +194,7 @@ public class Gestor {
                 else
                     k++;
             }
-            System.out.println( memories.get(k).getNextPos());
+            //System.out.println( memories.get(k).getNextPos());
             //System.out.println("¢¢¢¢¢¢");
             //System.out.println(memories.get(i));
             //System.out.println("¢¢¢¢¢¢");
@@ -247,6 +232,13 @@ public class Gestor {
             //System.out.println(memories.get(i).getNextPos());
         }
 
+        String sout = Stream2StandardIO(); //Changes exit from Stream to terminal
+        try {
+            writeResults2File(sout,"nextGap");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -282,5 +274,30 @@ public class Gestor {
             s.append(memories.get(i).showMemory()).append("\n");
         }//TODO add color java.awt from string to MyAPP.class
         return s+"";
+    }
+
+    private void writeResults2File(String toWrite, String name) throws IOException {
+
+        File myObj = new File("src/Files/"+name+"(result).txt");
+
+        if (myObj.createNewFile())
+            System.out.println("File created: " + myObj.getName());
+
+        FileWriter myWriter = new FileWriter("src/Files/"+name+"(result).txt");
+        myWriter.write(toWrite);
+        myWriter.close();
+    }
+
+    private  void standardIO2Stream(){
+        baos = new ByteArrayOutputStream();
+        ps = new PrintStream(baos);
+        old = System.out;
+        System.setOut(ps);
+    }
+
+    private String Stream2StandardIO(){
+        System.out.flush();
+        System.setOut(old); // standard exit
+        return (baos.toString());
     }
 }

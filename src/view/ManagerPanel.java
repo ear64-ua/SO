@@ -13,7 +13,7 @@ import static javax.swing.SwingConstants.TOP;
 public class ManagerPanel extends JPanel {
     private Gestor g;
     public static final int left_margin = 20;
-    public final String filename = "/Users/me/IdeaProjects/SO/src/Files/processes5.txt";
+    public final String filename = "src/Files/processes5.txt";
     private int marginMemories = 0;
     private JButton nextGapButton= new JButton("Next Gap Algorithm");
     private JButton bestGapButton = new JButton("Best Gap Algorithm");
