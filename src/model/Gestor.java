@@ -175,17 +175,18 @@ public class Gestor {
             }
 
             int k = 0;
+            //System.out.println("###################");
+            //System.out.println(memories.get(i));
             // we remove from the queue the processes that are not executing anymore
             for (Process p : processes) {
                 if (p.getDuration() == 0) {
-                    memories.get(i).setInSlot(positions.get(k),p);
+                    //memories.get(i).setInSlot(positions.get(k),p);
                     //System.out.println(k);
-                    memories.get(k).setNextSlotPos(p.getPosition());
+                    //if(k==0){
+                      //  memories.get(i).bestSlot(p);
+                    //}
+                    //memories.get(i).nextSlot(p);
 
-                    try {
-                        memories.get(i).removeProcess(p);
-                    } catch (ProcessNotFound e) {
-                    }
                     if (queue.contains(p)) {
                         queue.remove(p);
                     }
@@ -194,6 +195,10 @@ public class Gestor {
                 else
                     k++;
             }
+            //System.out.println(memories.get(i));
+            //System.out.println("###################");
+
+            memories.get(i).joinEmptySlots();
             //System.out.println( memories.get(k).getNextPos());
             //System.out.println("¢¢¢¢¢¢");
             //System.out.println(memories.get(i));
@@ -224,6 +229,15 @@ public class Gestor {
             // the number of memories will increase
             if (i==memories.size()-1 && queue.size()!=0) {
                 memories.add(new Memory());
+            }
+
+            for(Process p : processes){
+                if (p.getDuration()==0){
+                    try {
+                        memories.get(i).removeProcess(p);
+                    } catch (ProcessNotFound e) {
+                    }
+                }
             }
 
             memories.get(i).joinEmptySlots();
