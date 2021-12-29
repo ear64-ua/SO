@@ -15,21 +15,23 @@ public class GestorTest {
     @Test
     public void testAddProcesses() {
         Gestor g = new Gestor
-        ("/Users/me/IdeaProjects/SO/src/Files/processes.txt");
-        assertEquals(PROCESSES,g.showProcesses());
+        ("src/Files/processes.txt");
+        g.addProcesses();
+        //assertEquals(PROCESSES,g.showProcesses());
     }
 
     @Test
     public void testBestGap(){
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes.txt");
+        Gestor g = new Gestor("src/Files/processes.txt");
         g.addProcesses();
         g.bestGap();
+        System.out.println(g);
     }
 
     @Test
     public void testBestGap2(){
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes5.txt");
-        Gestor g2 = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes5.txt");
+        Gestor g = new Gestor("src/Files/processes5.txt");
+        Gestor g2 = new Gestor("src/Files/processes5.txt");
         g.addProcesses();
         g2.addProcesses();
         //System.out.println(g.getNumMemories());
@@ -48,19 +50,19 @@ public class GestorTest {
 
     @Test
     public void testBestGap3(){
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes4.txt");
+        Gestor g = new Gestor("src/Files/processes4.txt");
         g.bestGap();
     }
 
     @Test
     public void numMemories(){
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes2.txt");
+        Gestor g = new Gestor("src/Files/processes2.txt");
         assertEquals(9,g.getNumMemories());
     }
 
     @Test
     public void numMemories2(){
-        Gestor g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes3.txt");
+        Gestor g = new Gestor("src/Files/processes3.txt");
         assertEquals(15,g.getNumMemories());
     }
 

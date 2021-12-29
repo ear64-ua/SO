@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -25,6 +26,7 @@ public class MemoryTest {
     private final String NEXTSLOT2 = "[ ( 0: 500 | Process: p1)  ( 1: 700 )  ( 2: 200 | Process: p3)  ( 3: 500 | Process: p5)  ( 4: 100 ) ]";
     private final String SETUPNEXTSLOT = "[ ( 0: 500 | Process: p1)  ( 1: 700 )  ( 2: 200 | Process: p3)  ( 3: 600 ) ]";
     private final String JOINEMPTYSLOTS = "[ ( 0: 500 )  ( 1: 1000 | Process: p3)  ( 2: 500 ) ]";
+    private final String BESTSLOT3 = "[ ( 0: 800 | Process: p1)  ( 1: 200 | Process: p2)  ( 2: 200 | Process: p3)  ( 3: 800 | Process: p4) ]";
 
     @Test
     public void testSlotIsEmpty(){
@@ -54,9 +56,9 @@ public class MemoryTest {
 
     @Test
     public void testBestSlot1() {
-        assertTrue(m.bestSlot(new Process("p1",0,1800,3, Color.BLUE)));
-        assertFalse(m.bestSlot(new Process("p2",0,300,3, Color.RED)));
-        assertTrue(m.bestSlot(new Process("p3",0,200,3, Color.MAGENTA)));
+        assertNotNull(m.bestSlot(new Process("p1",0,1800,3, Color.BLUE)));
+        assertNull(m.bestSlot(new Process("p2",0,300,3, Color.RED)));
+        assertNotNull(m.bestSlot(new Process("p3",0,200,3, Color.MAGENTA)));
 
     }
 
@@ -65,12 +67,12 @@ public class MemoryTest {
         Process p1 = new Process("p1",0,1800,3, Color.BLUE);
         Process p2 = new Process("p2",0,300,3, Color.RED);
         Process p3 = new Process("p3",0,200,3, Color.BLACK);
-        assertTrue(m.bestSlot(p1));
-        assertTrue(m.bestSlot(p3));
+        assertNotNull(m.bestSlot(p1));
+        assertNotNull(m.bestSlot(p3));
 
         try {
             m.removeProcess(p1);
-            assertTrue(m.bestSlot(p2));
+            assertNotNull(m.bestSlot(p2));
             assertEquals(BESTSLOT1,m.toString());
 
         } catch (ProcessNotFound e) {
@@ -172,6 +174,7 @@ public class MemoryTest {
         m.bestSlot(p3);
         m.bestSlot(p4);
         m.bestSlot(p5);
+        System.out.println(m);
 
         try {
             m.removeProcess(p1);
@@ -182,7 +185,35 @@ public class MemoryTest {
             e.getMessage();
         }
         m.joinEmptySlots();
+        System.out.println(m);
         assertEquals(JOINEMPTYSLOTS,m.toString());
+
+    }
+
+    @Test
+    public void testJoinEmptySlots2(){
+        Process p1 = new Process("p1",0,800,3, Color.BLUE);
+        Process p2 = new Process("p2",0,200,3, Color.RED);
+        Process p3 = new Process("p3",0,200,3, Color.MAGENTA);
+        Process p4 = new Process("p4",0,800,3, Color.RED);
+
+        m.setInSlot(0,p1);
+        m.setInSlot(1,p2);
+        m.setInSlot(2,p3);
+        m.setInSlot(3,p4);
+
+        System.out.println(m);
+
+        try {
+            m.removeProcess(p1);
+            m.removeProcess(p2);
+            m.removeProcess(p3);
+        } catch (ProcessNotFound e) {
+            e.getMessage();
+        }
+        m.joinEmptySlots();
+        System.out.println(m);
+        //assertEquals(JOINEMPTYSLOTS,m.toString());
 
     }
 
@@ -207,4 +238,50 @@ public class MemoryTest {
         System.out.println(m);
     }
 
+
+    @Test
+    public void testBestSlot3(){
+        Process p1 = new Process("p1",0,800,2, Color.BLUE);
+        Process p3 = new Process("p3",0,200,2, Color.BLUE);
+        Process p2 = new Process("p2",0,200,3, Color.RED);
+        Process p4 = new Process("p4",0,800,3, Color.RED);
+
+        m.bestSlot(p1);
+        m.bestSlot(p2);
+        m.bestSlot(p3);
+        m.bestSlot(p4);
+
+        assertEquals(0,p1.getPosition());
+        assertEquals(1,p2.getPosition());
+        assertEquals(2,p3.getPosition());
+        assertEquals(3,p4.getPosition());
+
+        assertEquals(BESTSLOT3,m.toString());
+    }
+
+    @Test
+    public void testing(){
+        ArrayList<Memory> memories = new ArrayList<>();
+        memories.add(new Memory());
+        memories.add(new Memory());
+        memories.add(new Memory());
+
+        ArrayList<Process> processes = new ArrayList<>();
+        Process p1 = new Process("p1",0,800,2, Color.BLUE); processes.add(p1);
+        Process p2 = new Process("p2",0,200,2, Color.YELLOW); processes.add(p2);
+        Process p3 = new Process("p3",0,200,3, Color.RED); processes.add(p3);
+
+        for (int i = 0; i < memories.size(); i++) {
+
+            memories.set(i, i != 0 ? memories.get(i-1) : new Memory());
+            Memory m = memories.get(i).bestSlot(processes.get(i));
+            memories.set(i,m);
+
+            System.out.println("new "+memories.get(i));
+        }
+
+        for(int j = 0; j < memories.size(); j++){
+            System.out.println(memories.get(j));
+        }
+    }
 }

@@ -58,6 +58,10 @@ public class Process{
         duration+=qty;
     }
 
+    public void setPosition(int x){
+        this.x=x;
+    }
+
     public Slot getSlot(){
         return slot;
     }

@@ -25,7 +25,6 @@ public class ManagerPanel extends JPanel {
         addNextGapButton();
         addBestGapButton();
 
-
         managerDrawing.setForeground(Color.white);
         //managerDrawing.setOpaque(true);
         managerDrawing.setLocation(200,50);
@@ -43,9 +42,6 @@ public class ManagerPanel extends JPanel {
         add(bestGapButton,BorderLayout.SOUTH);
 
         //addProcessLabel();
-
-
-
     }
 
     public class NextGapListener implements ActionListener {

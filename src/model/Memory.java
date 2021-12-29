@@ -3,7 +3,6 @@ package model;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -183,7 +182,7 @@ public class Memory {
 	 * @param process that will try to be added into memory
 	 * @return {@code true} if assigned, {@code false} if not
 	 */
-	public boolean bestSlot(@NotNull Process process) {
+	public Memory bestSlot(@NotNull Process process) {
 
 		int i = 0;
 		int position=0;
@@ -192,8 +191,9 @@ public class Memory {
 		Slot bestSlot = new Slot(size+1,i);
 
 		// if there's no more space we will return false
-		if(!isSpace(process.getMemory()) || containsProcess(process))
-			return false;
+		if(!isSpace(process.getMemory()) || containsProcess(process)) {
+			return null;
+		}
 
 		// for every Pair of key,value we will search for the optimal slot
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
@@ -202,8 +202,11 @@ public class Memory {
 			if (pairEntry.getValue()==null){
 				// if it's the same amount of space we will assign the process to this slot
 				if (( pairEntry.getKey()).getSpace() == process.getMemory()){
+					process.setSlot(pairEntry.getKey());
+					process.setPosition(pairEntry.getKey().getX());
 					memory.put((pairEntry.getKey()),process);
-					return true;
+
+					return this;
 				}
 				// else if the space in this slot is bigger then...
 				else if ((pairEntry.getKey()).getSpace() > process.getMemory()){
@@ -235,7 +238,7 @@ public class Memory {
 			memory.put(bestSlot,process);
 		}
 
-		return true;
+		return this;
 	}
 
 
