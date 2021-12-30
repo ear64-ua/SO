@@ -59,25 +59,18 @@ public class Gestor {
 
         for (int i = 0; i < memories.size(); i++){
             // the last memory will be equal to this
-            memories.set(i,(i != 0) ? memories.get(i-1) : new Memory());
-
+            Memory m = i != 0 ? new Memory(memories.get(i-1)) : new Memory();
             checkProcess(queue, i);
 
-            executionBestGap(queue, i);
+            m = executionBestGap(queue, i, m);
+            m.joinEmptySlots();
 
-            // if there's empty slots together, we join them
-            memories.get(i).joinEmptySlots();
+            m =  assignBestGap(queue, i, m);
 
-            assignBestGap(queue, i);
-
-            memories.get(i).joinEmptySlots();
-            memories.set(i,memories.get(i));
+            m.joinEmptySlots();
+            memories.set(i,m);
             System.out.println(i+": "+memories.get(i));
-            //lastMemory=memories.get(i);
-
         }
-
-        System.out.println("mem: "+ memories.get(1));
 
         String sout = Stream2StandardIO(); //Changes the exit from Stream to console
         try {
@@ -105,16 +98,16 @@ public class Gestor {
      * @param queue of processes
      * @param i index of memory
      */
-    private void assignBestGap(Queue<Process> queue, int i) {
+    private Memory assignBestGap(Queue<Process> queue, int i, Memory m) {
         for (Process p : queue){
-            if(p.getDuration()!=0 && !memories.get(i).containsProcess(p)){
-                Memory m = memories.get(i).bestSlot(p);
-                if(m!=null) {
+            if(p.getDuration()!=0 && !m.containsProcess(p)){
+                if(m.bestSlot(p)){
                     p.setDuration(-1);
                 }
 
             }
         }
+        return m;
     }
 
     /**
@@ -124,19 +117,20 @@ public class Gestor {
      * @param queue of processes
      * @param i index of memory
      */
-    private void executionBestGap(Queue<Process> queue, int i) {
+    private Memory executionBestGap(Queue<Process> queue, int i, Memory m) {
         for (Process p : processes) {
             if (p.getDuration() == 0) {
                 try {
-                    memories.get(i).removeProcess(p);
+                    m.removeProcess(p);
                 } catch (ProcessNotFound ignored) {
                 }
                 queue.remove(p);
             }
-            if (p.getDuration()!=0 && memories.get(i).containsProcess(p)){
+            if (p.getDuration()!=0 && m.containsProcess(p)){
                 p.setDuration(-1);
             }
         }
+        return m;
     }
 
     public void nextGap(){

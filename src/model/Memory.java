@@ -11,7 +11,7 @@ import java.util.TreeMap;
  * This class uses a TreeMap for the value Process and key Slot, which will be ordered by
  * the position of the slot
  */
-public class Memory {
+public class Memory{
 
 	private final int size = 2000;
 
@@ -22,6 +22,30 @@ public class Memory {
 	public Memory() {
 		memory = new TreeMap<>();
 		memory.put(new Slot(size,0),null);
+	}
+
+	public Memory(Memory m){
+		memory = new TreeMap<>();
+		for (Map.Entry<Slot,Process> pairEntry: m.getMemory().entrySet() ){
+			memory.put(new Slot(pairEntry.getKey()),pairEntry.getValue() == null ? null : new Process(pairEntry.getValue()));
+		}
+		nextSlotPos = m.nextSlotPos;
+	}
+
+	/**
+	 * Setter of memory
+	 * @param memory which is going to be assigned
+	 */
+	public void setMemory(TreeMap<Slot, Process> memory){
+		this.memory=memory;
+	}
+
+	/**
+	 * Getter of memory
+	 * @return the value of memory
+	 */
+	public TreeMap<Slot, Process> getMemory(){
+		return new TreeMap<>(memory);
 	}
 
 	public Process getProcess(Slot slot){
@@ -39,7 +63,7 @@ public class Memory {
 
 		Slot slot2Remove = null;
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
-			if ( pairEntry.getValue()==(process)) {
+			if (pairEntry.getValue()!=null && pairEntry.getValue().getName()==(process.getName())) {
 				slot2Remove = pairEntry.getKey();
 				break;
 			}
@@ -53,10 +77,6 @@ public class Memory {
 
 		else
 			throw new ProcessNotFound(process);
-	}
-
-	public void paintMemory(Graphics g, int y)
-	{
 	}
 
 	/**
@@ -80,7 +100,13 @@ public class Memory {
 	 * @return {@code true} if the memory has the process, {@code false} if not
 	 */
 	public boolean containsProcess(Process process){
-		return memory.containsValue(process);
+		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
+			if (pairEntry.getValue() != null && pairEntry.getValue().getName() == (process.getName())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -139,6 +165,10 @@ public class Memory {
 		return false;
 	}
 
+	/**
+	 * Gives a String representing the slots that are formed in the memory
+	 * @return a concatenation of all the slots
+	 */
 	public String showMemory(){
 
 		StringBuilder s = new StringBuilder("");
@@ -182,7 +212,7 @@ public class Memory {
 	 * @param process that will try to be added into memory
 	 * @return {@code true} if assigned, {@code false} if not
 	 */
-	public Memory bestSlot(@NotNull Process process) {
+	public boolean bestSlot(@NotNull Process process) {
 
 		int i = 0;
 		int position=0;
@@ -192,7 +222,7 @@ public class Memory {
 
 		// if there's no more space we will return false
 		if(!isSpace(process.getMemory()) || containsProcess(process)) {
-			return null;
+			return false;
 		}
 
 		// for every Pair of key,value we will search for the optimal slot
@@ -206,7 +236,7 @@ public class Memory {
 					process.setPosition(pairEntry.getKey().getX());
 					memory.put((pairEntry.getKey()),process);
 
-					return this;
+					return true;
 				}
 				// else if the space in this slot is bigger then...
 				else if ((pairEntry.getKey()).getSpace() > process.getMemory()){
@@ -236,11 +266,12 @@ public class Memory {
 			memory.put(oldSlot,null);
 			process.setSlot(bestSlot);
 			memory.put(bestSlot,process);
+			return true;
 		}
 
-		return this;
-	}
+		return false;
 
+	}
 
 	/**
 	 * The function for this method is to push the pair Key and Value one the position
@@ -248,28 +279,37 @@ public class Memory {
 	 */
 	public void pushSlots(int position){
 
+		// both arrays will contain the new pushed keys with their value
 		ArrayList<Slot> slots = new ArrayList<>();
 		ArrayList<Process> processes = new ArrayList<>();
-		Slot slot2remove = new Slot(0,-1);
+
+		// we add to this list the slots that will be replaced
+		ArrayList<Slot> slots2remove = new ArrayList<>();
+
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
 
+			// we will be pushing from this position
 			if (( pairEntry.getKey()).getX()==position) {
-				slot2remove = pairEntry.getKey();
+				slots2remove.add(pairEntry.getKey());
 				slots.add(new Slot ((pairEntry.getKey()).getSpace(),( pairEntry.getKey()).getX()+1));
 				processes.add(pairEntry.getValue());
 			}
 
-			if (( pairEntry.getKey()).getX()>=position) {
+			// and forward the position given
+			if (( pairEntry.getKey()).getX()>position) {
+				slots2remove.add(pairEntry.getKey());
 				slots.add(new Slot (( pairEntry.getKey()).getSpace(),( pairEntry.getKey()).getX()+1));
 				processes.add(pairEntry.getValue());
 
 			}
 		}
-		memory.remove(slot2remove);
 
-		for (int i = 0; i < slots.size(); i++){
+		for (int k = 0; k < slots2remove.size(); k++)
+			memory.remove(slots2remove.get(k));
+
+		for (int i = 0; i < slots.size(); i++)
 			memory.put(slots.get(i),processes.get(i));
-		}
+
 	}
 
 	/**

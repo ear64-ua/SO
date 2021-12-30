@@ -1,5 +1,8 @@
 package model;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class Slot implements Comparable<Slot>{
@@ -11,6 +14,11 @@ public class Slot implements Comparable<Slot>{
 	public Slot(int space, int x) {
 		this.space=space;
 		this.x=x;
+	}
+
+	public Slot(@NotNull Slot s){
+		this.space = s.space;
+		this.x = s.x;
 	}
 
 	/**
