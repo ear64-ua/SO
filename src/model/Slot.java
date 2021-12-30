@@ -1,31 +1,41 @@
 package model;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
+/**
+ * Class that represents a slot with the space it has and the location in memory
+ * @author Enrique Abma Romero
+ */
 public class Slot implements Comparable<Slot>{
 
 	private int space;
 
 	private int x;
 
+	/***
+	 * Constructor of the class
+	 * @param space that will be assigned
+	 * @param x position in memory
+	 */
 	public Slot(int space, int x) {
 		this.space=space;
 		this.x=x;
 	}
 
+	/**
+	 * Constructor that uses deep copy
+	 * @param s slot that will be copied
+	 */
 	public Slot(@NotNull Slot s){
 		this.space = s.space;
 		this.x = s.x;
 	}
 
 	/**
-	 * returns whether is occupied by a Process
-	 * @return
+	 * Getter of space
+	 * @return the amount of space it has
 	 */
-	
 	public int getSpace() {
 		return space;
 	}
@@ -37,10 +47,18 @@ public class Slot implements Comparable<Slot>{
 		return x;
 	}
 
+	/**
+	 * Setter of space
+	 * @param space that will be assigned
+	 */
 	public void setSpace(int space){
 		this.space=space;
 	}
 
+	/**
+	 * Setter of the position
+	 * @param x position that will be updated
+	 */
 	public void setX(int x){
 		this.x=x;
 	}
@@ -58,6 +76,7 @@ public class Slot implements Comparable<Slot>{
 		return Objects.hash(x,space);
 	}
 
+	@Override
 	public String toString(){
 		return " "+ x +": "+ space + " ";
 	}

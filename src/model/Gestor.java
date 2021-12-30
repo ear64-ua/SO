@@ -174,12 +174,9 @@ public class Gestor {
 
             Memory m = i != 0 ? new Memory(memories.get(i-1)) : new Memory();
             checkProcess(queue, i);
-            System.out.println(m.getNextSlotPos());
             m = execution(queue, m);
-            System.out.println(m.getNextSlotPos());
             m.joinEmptySlots();
 
-            System.out.println(m.getNextSlotPos());
             m = assignNextGap(queue,m);
             m.joinEmptySlots();
 

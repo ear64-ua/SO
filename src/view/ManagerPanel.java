@@ -3,13 +3,14 @@ package view;
 import model.Gestor;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static javax.swing.SwingConstants.TOP;
-
+/**
+ * Class that will determine the actions and add the components
+ * @author Enrique Abma Romero
+ */
 public class ManagerPanel extends JPanel {
     private Gestor g;
     public static final int left_margin = 20;
