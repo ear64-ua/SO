@@ -57,7 +57,7 @@ public class ManagerDrawing extends JComponent {
     }
 
     public void nextGap(){
-        Gestor gestor2 = new Gestor("src/Files/processes2.txt");
+        Gestor gestor2 = new Gestor(filename);
         gestor2.addProcesses();
         gestor2.nextGap();
         gestor=gestor2;

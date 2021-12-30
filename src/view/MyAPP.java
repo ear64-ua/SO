@@ -34,7 +34,7 @@ public class MyAPP extends JFrame implements ActionListener {
     public MyAPP(){
         addBestGapButton();
         addNextGapButton();
-        g = new Gestor("/Users/me/IdeaProjects/SO/src/Files/processes5.txt");
+        g = new Gestor("src/Files/processes.txt");
         g.addProcesses();
         addProcessLabel();
 

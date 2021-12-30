@@ -191,6 +191,24 @@ public class MemoryTest {
     }
 
     @Test
+    public void testNextSlot3() throws ProcessNotFound {
+        Process p1 = new Process("p1",0,800,2, Color.BLUE);
+        Process p3 = new Process("p3",0,200,2, Color.BLUE);
+        Process p2 = new Process("p2",0,200,3, Color.RED);
+        Process p4 = new Process("p4",0,200,3, Color.MAGENTA);
+        m.bestSlot(p1);
+        m.bestSlot(p2);
+        m.nextSlot(p3);
+
+        m.removeProcess(p2);
+        System.out.println(m.getNextSlotPos());
+        System.out.println(m);
+        m.nextSlot(p4);
+        System.out.println(m);
+
+    }
+
+    @Test
     public void testJoinEmptySlots(){
         Process p1 = new Process("p1",0,200,3, Color.BLUE);
         Process p2 = new Process("p2",0,300,3, Color.RED);

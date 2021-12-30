@@ -55,6 +55,14 @@ public class GestorTest {
     }
 
     @Test
+    public void testNextGap(){
+        Gestor g = new Gestor("src/Files/processes.txt");
+        g.addProcesses();
+        g.nextGap();
+        System.out.println(g);
+    }
+
+    @Test
     public void numMemories(){
         Gestor g = new Gestor("src/Files/processes2.txt");
         assertEquals(9,g.getNumMemories());

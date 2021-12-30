@@ -1,4 +1,24 @@
-0 [ ( 0: 500 | Process: P1)  ( 1: 500 | Process: P2)  ( 2: 400 | Process: P3)  ( 3: 500 | Process: P4)  ( 4: 100 ) ]
-1 [ ( 0: 500 | Process: P1)  ( 1: 500 | Process: P2)  ( 2: 400 )  ( 3: 500 | Process: P4)  ( 4: 100 | Process: P5) ]
-2 [ ( 0: 2000 ) ]
-3 [ ( 0: 2000 ) ]
+0
+0
+0
+0 [ ( 0: 800 | Process: P1)  ( 1: 200 | Process: P2)  ( 2: 200 | Process: P3)  ( 3: 800 | Process: P4) ]
+0
+-1
+-1
+1 [ ( 0: 800 | Process: P1)  ( 1: 200 | Process: P2)  ( 2: 200 | Process: P3)  ( 3: 800 | Process: P4) ]
+0
+-1
+-1
+2 [ ( 0: 800 | Process: P1)  ( 1: 200 | Process: P2)  ( 2: 200 | Process: P3)  ( 3: 800 | Process: P4) ]
+0
+-1
+-1
+3 [ ( 0: 800 | Process: P1)  ( 1: 150 | Process: P5)  ( 2: 50 )  ( 3: 200 | Process: P3)  ( 4: 800 ) ]
+-1
+-1
+-1
+4 [ ( 0: 800 | Process: P1)  ( 1: 150 | Process: P5)  ( 2: 50 )  ( 3: 200 | Process: P3)  ( 4: 800 ) ]
+-1
+-1
+-1
+5 [ ( 0: 2000 ) ]

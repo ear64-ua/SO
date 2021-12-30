@@ -5,39 +5,38 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
  * This class uses a TreeMap for the value Process and key Slot, which will be ordered by
  * the position of the slot
+ * @author Enrique Abma Romero
  */
 public class Memory{
 
 	private final int size = 2000;
-
 	public TreeMap<Slot, Process> memory;
 	private int nextSlotPos = 0;
 
-
+	/**
+	 * Principal constructor of the class
+	 */
 	public Memory() {
 		memory = new TreeMap<>();
 		memory.put(new Slot(size,0),null);
 	}
 
+	/**
+	 * Constructor that uses a deep copy of the memory given
+	 * @param m memory which will be copied
+	 */
 	public Memory(Memory m){
 		memory = new TreeMap<>();
 		for (Map.Entry<Slot,Process> pairEntry: m.getMemory().entrySet() ){
 			memory.put(new Slot(pairEntry.getKey()),pairEntry.getValue() == null ? null : new Process(pairEntry.getValue()));
 		}
-		nextSlotPos = m.nextSlotPos;
-	}
-
-	/**
-	 * Setter of memory
-	 * @param memory which is going to be assigned
-	 */
-	public void setMemory(TreeMap<Slot, Process> memory){
-		this.memory=memory;
+		this.nextSlotPos = m.nextSlotPos;
 	}
 
 	/**
@@ -48,10 +47,12 @@ public class Memory{
 		return new TreeMap<>(memory);
 	}
 
-	public Process getProcess(Slot slot){
-		if (memory.containsKey(slot))
-			return memory.get(slot);
-		return null;
+	/**
+	 * Getter of nextSlotPos
+	 * @return the value of nextSlotPos
+	 */
+	public int getNextSlotPos(){
+		return nextSlotPos;
 	}
 
 	/**
@@ -63,7 +64,7 @@ public class Memory{
 
 		Slot slot2Remove = null;
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
-			if (pairEntry.getValue()!=null && pairEntry.getValue().getName()==(process.getName())) {
+			if (pairEntry.getValue()!=null && Objects.equals(pairEntry.getValue().getName(), process.getName())) {
 				slot2Remove = pairEntry.getKey();
 				break;
 			}
@@ -101,19 +102,12 @@ public class Memory{
 	 */
 	public boolean containsProcess(Process process){
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
-			if (pairEntry.getValue() != null && pairEntry.getValue().getName() == (process.getName())) {
+			if (pairEntry.getValue() != null && Objects.equals(pairEntry.getValue().getName(), process.getName())) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	 * @return the value of size in the memory, which will be always 2000
-	 */
-	public int getSize() {
-		return size;
 	}
 
 	public Slot getSlot(Map.Entry<Slot,Process> pairEntry){
@@ -171,7 +165,7 @@ public class Memory{
 	 */
 	public String showMemory(){
 
-		StringBuilder s = new StringBuilder("");
+		StringBuilder s = new StringBuilder();
 		for (Map.Entry<Slot,Process> pairEntry: memory.entrySet() ) {
 			if (pairEntry.getValue() != null) {
 				s.append(String.valueOf((pairEntry.getValue().getColor()).getRed())).append(",")
@@ -304,8 +298,7 @@ public class Memory{
 			}
 		}
 
-		for (int k = 0; k < slots2remove.size(); k++)
-			memory.remove(slots2remove.get(k));
+		for (Slot slot : slots2remove) memory.remove(slot);
 
 		for (int i = 0; i < slots.size(); i++)
 			memory.put(slots.get(i),processes.get(i));
@@ -437,12 +430,9 @@ public class Memory{
 		nextSlotPos=i;
 	}
 
-	public int getNextPos(){
-		return nextSlotPos;
-	}
-
 	/**
 	 * If there are two slots next to each other and are empty, this slots will be joined into a single one
+	 * using pull method if necessary
 	 */
 	public void joinEmptySlots(){
 
@@ -450,9 +440,7 @@ public class Memory{
 		int memSize = memory.size();
 		boolean found = false;
 		int position = 0;
-
 		Slot lastSlot = new Slot(size+1,-2);
-		Slot s = new Slot(size+1,-2);
 
 		for (int i = 0; i < memSize;i++) {
 			for (Map.Entry<Slot, Process> pairEntry : memory.entrySet()) {

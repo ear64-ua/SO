@@ -1,6 +1,0 @@
-0 [ ( 0: 500 | Process: P1)  ( 1: 500 | Process: P2)  ( 2: 1000 | Process: P3) ]
-1 [ ( 0: 500 | Process: P1)  ( 1: 500 | Process: P2)  ( 2: 1000 | Process: P3) ]
-2 [ ( 0: 500 | Process: P4)  ( 1: 500 | Process: P2)  ( 2: 1000 | Process: P3) ]
-3 [ ( 0: 500 | Process: P4)  ( 1: 1500 ) ]
-4 [ ( 0: 500 | Process: P4)  ( 1: 1500 ) ]
-5 [ ( 0: 2000 ) ]

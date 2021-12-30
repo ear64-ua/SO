@@ -7,6 +7,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+/**
+ * Class that manages the processes inside an array of memories depending on the algorithm used
+ * @author Enrique Abma Romero
+ */
 public class Gestor {
 
     public ArrayList<Process> processes;
@@ -16,6 +20,10 @@ public class Gestor {
     ByteArrayOutputStream baos;
     PrintStream ps, old;
 
+    /**
+     * Constructor of the class
+     * @param filename name of the file in which the processes will be read
+     */
     public Gestor(String filename){
         processes = new ArrayList<>();
         memories = new ArrayList<>();
@@ -23,6 +31,9 @@ public class Gestor {
         System.out.println(filename);
     }
 
+    /**
+     * Adds processes to the processes arrayList
+     */
     public void addProcesses() {
 
         try {
@@ -43,14 +54,17 @@ public class Gestor {
 
     }
 
+    /**
+     * Adds memories depending on the greater duration of a process
+     */
     public void addMemories(){
         for (int i = 0; i < getNumMemories(); i++)
             memories.add(new Memory());
     }
 
     /**
-     * This method uses Memory.bestSlot which will determine the best gap for each process and check if its
-     * duration has reached 0
+     * This method uses Memory.bestSlot for each memory which will determine the best gap for each process
+     * It prints out to the stream the memories created
      */
     public void bestGap(){
         addMemories();
@@ -62,10 +76,10 @@ public class Gestor {
             Memory m = i != 0 ? new Memory(memories.get(i-1)) : new Memory();
             checkProcess(queue, i);
 
-            m = executionBestGap(queue, i, m);
+            m = execution(queue, m);
             m.joinEmptySlots();
 
-            m =  assignBestGap(queue, i, m);
+            m = assignBestGap(queue, m);
 
             m.joinEmptySlots();
             memories.set(i,m);
@@ -94,17 +108,15 @@ public class Gestor {
     }
 
     /**
-     * For every process in queue that has not been assigned yet, we add them to the memory
+     * For every process in queue that has not been assigned yet, we add them to the memory using bestGap algorithm
      * @param queue of processes
-     * @param i index of memory
      */
-    private Memory assignBestGap(Queue<Process> queue, int i, Memory m) {
+    private Memory assignBestGap(Queue<Process> queue, Memory m) {
         for (Process p : queue){
             if(p.getDuration()!=0 && !m.containsProcess(p)){
                 if(m.bestSlot(p)){
                     p.setDuration(-1);
                 }
-
             }
         }
         return m;
@@ -115,9 +127,8 @@ public class Gestor {
      *  remove from memory the processes that are no longer executing
      *  and remove one unit to the duration of the processes that are still running
      * @param queue of processes
-     * @param i index of memory
      */
-    private Memory executionBestGap(Queue<Process> queue, int i, Memory m) {
+    private Memory execution(Queue<Process> queue, Memory m) {
         for (Process p : processes) {
             if (p.getDuration() == 0) {
                 try {
@@ -128,107 +139,60 @@ public class Gestor {
             }
             if (p.getDuration()!=0 && m.containsProcess(p)){
                 p.setDuration(-1);
+                m.setNextSlotPos(p.getPosition());
             }
         }
         return m;
     }
 
+    /**
+     * For every process in queue that has not been assigned yet, we add them to the memory using nextGap algorithm
+     * @param queue of processes
+     */
+    private Memory assignNextGap(Queue<Process> queue, Memory m) {
+        for (Process p : queue){
+            if(p.getDuration()!=0 && !m.containsProcess(p)){
+                if(m.nextSlot(p)){
+                    p.setDuration(-1);
+                    m.setNextSlotPos(p.getPosition());
+                }
+            }
+        }
+        return m;
+    }
+
+    /**
+     * This method uses Memory.nextSlot for each memory which will determine the best gap for each process
+     * It prints out to the stream the memories created
+     */
     public void nextGap(){
         addMemories();
         Queue<Process> queue = new LinkedList<>();
-        int j ;
-        ArrayList<Integer> positions = new ArrayList<>();
-        standardIO2Stream(); //Changes exit standard to Stream
+        standardIO2Stream();
 
         for (int i = 0; i < memories.size(); i++){
 
-            // we add to the queue the processes when the time for them to execute comes
-            for (Process p : processes){
-                //System.out.println(p.getName()+" " +p.getPosition());
-                if (p.getArrive()==i){
-                    queue.add(p);
-                    positions.add(p.getPosition());
-                }
-            }
+            Memory m = i != 0 ? new Memory(memories.get(i-1)) : new Memory();
+            checkProcess(queue, i);
+            System.out.println(m.getNextSlotPos());
+            m = execution(queue, m);
+            System.out.println(m.getNextSlotPos());
+            m.joinEmptySlots();
 
-            int k = 0;
-            //System.out.println("###################");
-            //System.out.println(memories.get(i));
-            // we remove from the queue the processes that are not executing anymore
-            for (Process p : processes) {
-                if (p.getDuration() == 0) {
-                    //memories.get(i).setInSlot(positions.get(k),p);
-                    //System.out.println(k);
-                    //if(k==0){
-                      //  memories.get(i).bestSlot(p);
-                    //}
-                    //memories.get(i).nextSlot(p);
+            System.out.println(m.getNextSlotPos());
+            m = assignNextGap(queue,m);
+            m.joinEmptySlots();
 
-                    queue.remove(p);
-                    k++;
-                }
-                else
-                    k++;
-            }
-            //System.out.println(memories.get(i));
-            //System.out.println("###################");
-
-            memories.get(i).joinEmptySlots();
-            //System.out.println( memories.get(k).getNextPos());
-            //System.out.println("¢¢¢¢¢¢");
-            //System.out.println(memories.get(i));
-            //System.out.println("¢¢¢¢¢¢");
-            // TODO assign instead of depending on the number of slot from last memory,
-            //  depending on the number of the total of slots. Do a pull if the number of slots decreases
-            // for every process that is stored in the queue, we assign them their position
-            for (Process p : queue){
-
-                if (memories.get(i).setInSlot(p.getPosition(),p)) {
-                    p.setDuration(-1);
-                    memories.get(i).setNextSlotPos(p.getPosition());
-                }
-            }
-
-
-            // then for every process in queue that has not been assigned yet, we add them to the memory
-            for (Process p : queue){
-                if(p.getDuration()!=0){
-                    if(memories.get(i).nextSlot(p)) {
-                        p.setDuration(-1);
-                    }
-
-                }
-            }
-
-            // if there's still processes on queue when the predicted number of memories is at its limit,
-            // the number of memories will increase
-            if (i==memories.size()-1 && queue.size()!=0) {
-                memories.add(new Memory());
-            }
-
-            for(Process p : processes){
-                if (p.getDuration()==0){
-                    try {
-                        memories.get(i).removeProcess(p);
-                    } catch (ProcessNotFound ignored) {
-                    }
-                }
-            }
-
-            memories.get(i).joinEmptySlots();
-
+            memories.set(i,m);
             System.out.println(i+" "+memories.get(i));
-            //System.out.println(memories.get(i).getNextPos());
         }
 
-        String sout = Stream2StandardIO(); //Changes exit from Stream to console
+        String sout = Stream2StandardIO();
         try {
             writeResults2File(sout,"nextGap");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**
@@ -246,6 +210,10 @@ public class Gestor {
         return num+1;
     }
 
+    /**
+     * Shows the processes added to the class
+     * @return a string with the information of each processes
+     */
     public String showProcesses(){
         StringBuilder s = new StringBuilder();
         for (Process p : processes)
@@ -253,6 +221,10 @@ public class Gestor {
         return s+"";
     }
 
+    /**
+     * Shows the memories added to the class
+     * @return a string with the information of each memory
+     */
     public String showMemories(){
         StringBuilder s = new StringBuilder();
         for (Memory memory : memories) {
@@ -261,6 +233,12 @@ public class Gestor {
         return s+"";
     }
 
+    /**
+     * This method writes the memories to a file
+     * @param toWrite string of memories
+     * @param name of the file in which will be saved in
+     * @throws IOException if it can't create the file
+     */
     private void writeResults2File(String toWrite, String name) throws IOException {
 
         File myObj = new File("src/Files/"+name+"(result).txt");
@@ -273,6 +251,9 @@ public class Gestor {
         myWriter.close();
     }
 
+    /**
+     * Changes the printing from standard to stream
+     */
     private  void standardIO2Stream(){
         baos = new ByteArrayOutputStream();
         ps = new PrintStream(baos);
@@ -280,6 +261,9 @@ public class Gestor {
         System.setOut(ps);
     }
 
+    /**
+     * Changes the printing from stream to standard
+     */
     private String Stream2StandardIO(){
         System.out.flush();
         System.setOut(old); // standard exit
